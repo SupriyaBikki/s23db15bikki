@@ -1,0 +1,30 @@
+
+extends layout
+
+block content
+  h1= title
+  p  #{title}
+  -
+    let results = [
+      { aeroplane_type: 'Indigo', color: 'Brown', number_of_wings: 4 },
+      { aeroplane_type: 'Vistara', color: 'Gray', number_of_wings: 2 },
+      { aeroplane_type: 'JetBlue', color: 'Green', number_of_wings: 2 }
+    ]
+
+  .container-fluid
+    .row
+      each aeroplane,index in results
+        .col-sm-2
+          p Aeroplane Type: #{aeroplane.aeroplane_type}
+          p Color: #{aeroplane.color}
+          p Number of Wings: #{aeroplane.number_of_wings}
+          //- a(href="#" onclick=`buy(${index}); return false;`) Buy Aeroplane #{index}
+
+  a(href="/aeroplane") Go Back
+
+  //- script.
+  //-   function buy(index) {
+  //-     alert(`You purchased item ${index}`);
+  //-   }
+
+

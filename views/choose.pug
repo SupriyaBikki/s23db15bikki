@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+  div(style="gap: 10px; display: flex;") 
+    - const images = ['img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg']
+    - for (let i = 0; i < 3; i++)
+      - const randomIndexVal = Math.floor(Math.random() * images.length)
+      - const imgName = images[randomIndexVal]
+      img(src=`/images/${imgName}`, alt=imgName, height='400', width='400')
