@@ -1,31 +1,8 @@
-
 extends layout
 
 block content
   h1= title
-  p  #{title}
-  -
-    let results = [
-      { employe_type: 'developer', department: 'IT', salary: 4000 },
-      { employe_type: 'accountant', department: 'Finance', salary: 2000 },
-      { employe_type: 'Hiring manager', department: 'HR', salary: 7000 }
-    ]
-
-  .container-fluid
-    .row
-      each employe,index in results
-        .col-sm-2
-          p Employe Type: #{employe.employe_type}
-          p Department : #{employe.department}
-          p  Salary : #{employe.salary}
-          a(href="#" onclick=`buy(${index}); return false;`) Buy Employe #{index}
-
-  a(href="/employe") Go Back
-
-  script.
-    function buy(index) {
-      alert(`You purchased employe ${index}`);
-    }
- 
-
-
+  each employee in results
+    .employee
+      h2= employee.employee_type
+      p Department is: #{employee.department}, Salary is: #{employee.salary}

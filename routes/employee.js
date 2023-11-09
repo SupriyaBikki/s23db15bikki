@@ -1,9 +1,15 @@
+// routes/employee.js
 var express = require('express');
 var router = express.Router();
+var employee_controllers = require('../controllers/employee');
 
+// ... other routes ...
 
-router.get('/', function(req, res, next) {
-  res.render('employee', { title: 'Search Results - Employes.' });
-});
-
+// GET request for all employees.
+/* GET employees */
+router.get('/', employee_controllers.employee_view_all_Page);
 module.exports = router;
+
+// ... other routes ...
+
+

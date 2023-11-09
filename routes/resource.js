@@ -17,6 +17,8 @@ router.delete('/employee/:id', employee_controller.employee_delete);
 router.put('/employee/:id', employee_controller.employee_update_put);
 router.get('/employee/:id', employee_controller.employee_detail);
  router.get('/employee', employee_controller.employee_list);
+//  router.post('/employees', employee_controller.employee_create_post);
+
 //  router.post('/costumes', costume_controllers.costume_create_post);
 
 
