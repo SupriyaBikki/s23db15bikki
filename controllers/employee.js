@@ -30,7 +30,7 @@ exports.employee_detail = async function (req, res) {
     }
 };
 
-// Handle Costume update form on PUT.
+// Handle employee update form on PUT.
 exports.employee_update_put = async function (req, res) {
     console.log(`update on id ${req.params.id} with body
 ${JSON.stringify(req.body)}`)
@@ -115,5 +115,19 @@ exports.employee_view_all_Page = async function (req, res) {
         res.send(`{"error": ${err}}`);
     }
 };
+
+// Handle a show one view with id specified by query
+exports.employee_view_one_Page = async function(req, res) {
+    console.log("single view for id " + req.query.id)
+    try{
+    result = await employee.findById( req.query.id)
+    res.render('employeedetail',
+    { title: 'employee Detail', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
 
 
