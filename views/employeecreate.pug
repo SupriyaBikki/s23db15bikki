@@ -1,0 +1,78 @@
+extends layout
+
+block content
+    style.
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px #aaaaaa;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555555;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+    div.container
+        div.row
+            div.col-md-6.offset-md-3
+                h1.text-center= title
+
+                form(id='employeeForm', action="/resource/employee", method="POST")
+                    div.form-group
+                        label.employeeAttri(for='employee_type') Employee Name
+                        input#employee_type.form-control(type='text', name='employee_type', required)
+                    div.form-group
+                        label.employeeAttri(for='department') Employee Department
+                        input#department.form-control(type='text', name='department', required)
+                    div.form-group
+                        label.employeeAttri(for='salary') Employee Salary
+                        input#salary.form-control(type='number', name='salary', required)
+                    button.btn.btn-primary(type="submit") Save
+
+                script.
+                    document.forms['employeeForm'].addEventListener('submit', (event) => {
+                        event.preventDefault();
+                        // TODO do something here to show the user that the form is being submitted
+                        fetch(event.target.action, {
+                            method: 'POST',
+                            body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+                        }).then((resp) => {
+                            return resp.json(); // or resp.text() or whatever the server sends
+                        }).then((body) => {
+                            alert("Save succeeded");
+                            // TODO handle body
+                        }).catch((error) => {
+                            // TODO handle error
+                            alert("Save failed " + error);
+                        });
+                    });

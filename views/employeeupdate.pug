@@ -1,0 +1,50 @@
+extends layout
+
+block content
+    h1= title
+
+    if (toShow == null)
+        h2 No instance to update
+    else
+        - let employeeid = toShow._id
+        - let employee_type = toShow.employee_type
+        - let department = toShow.department
+        - let salary = toShow.salary
+
+        div.row(class='mb-2')
+            div.mr-1 ID is
+            div #{employeeid}
+            - let actionid = "/resource/employee/" + employeeid
+
+        form(id='employeeForm', action=actionid, method="PUT")
+            div.form-group
+                label(for='employee_type') Employee Name
+                input#employee_type(type='text', name='employee_type', value=employee_type)
+            div.form-group
+                label(for='department') Employee department
+                input#department(type='text', name='department', value=department)
+            div.form-group
+                label(for='salary') Employee salary
+                input#salary(type='number', name='salary', value=salary)
+            input(type="submit")
+
+        script.
+            document.forms['employeeForm'].addEventListener('submit', (event) => {
+                event.preventDefault();
+                fetch(event.target.action, {
+                    method: 'PUT',
+                    body: new URLSearchParams(new FormData(event.target))
+                }).then((resp) => {
+                    if (resp.ok) {
+                        alert("Save succeeded");
+                    } else {
+                        alert("Save failed");
+                    }
+                    return resp.json();
+                }).then((body) => {
+                    // TODO handle body
+                }).catch((error) => {
+                    // TODO handle error
+                    alert("Save failed " + error);
+                });
+            });

@@ -1,0 +1,54 @@
+extends layout
+
+block content
+    h1= title
+
+    if(toShow == null)
+        h2 No instance to delete
+    else
+        - let employeeid = toShow._id.toString()
+        - let employee_type = toShow.employee_type
+        - let department = toShow.department
+        - let salary = toShow.salary
+        - let actionid = "/resource/employee/" + employeeid
+        script let actionid = "#{actionid}"
+        div
+            div.row
+                div(class='employeeAttr mr-3') employee ID is:
+                div #{employeeid}
+            div.row
+                div(class='employeeAttr mr-3') employee Name is:
+                div #{employee_type}
+            div.row
+                div(class='employeeAttr mr-3') employee department is:
+                div #{department}
+            div.row
+                div(class='employeeAttr mr-3') employee salary is:
+                div #{salary}
+
+            button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+            button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+            
+        script.
+            function cancel() {
+            // Go back to the home page for the employee collection
+            window.location.href='/employee'
+            }
+
+        script.
+            function deleteOnid() {
+                console.log("starting delete")
+                // delete first
+                fetch(actionid, {
+                method: 'DELETE' // Don't need a body for the delete
+                }).then((resp) => {
+                return resp.json(); // or resp.text() or whatever the server sends
+                }).then((body) => {
+                alert("Delete succeded")
+                window.location.href='/employee'
+                // TODO handle body
+                }).catch((error) => {
+                // TODO handle error
+                alert("Delete failed " + error )
+                });
+            }

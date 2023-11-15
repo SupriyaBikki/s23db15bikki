@@ -18,7 +18,7 @@ exports.employee_list = async function (req, res) {
 // exports.employee_detail = function (req, res) {
 //     res.send('NOT IMPLEMENTED: employee detail: ' + req.params.id);
 // };
-// for a specific Costume.
+// for a specific employee.
 exports.employee_detail = async function (req, res) {
     console.log("detail" + req.params.id)
     try {
@@ -120,7 +120,7 @@ exports.employee_view_all_Page = async function (req, res) {
 exports.employee_view_one_Page = async function(req, res) {
     console.log("single view for id " + req.query.id)
     try{
-    result = await employee.findById( req.query.id)
+    result = await Employee.findById( req.query.id)
     res.render('employeedetail',
     { title: 'employee Detail', toShow: result });
     }
@@ -131,3 +131,44 @@ exports.employee_view_one_Page = async function(req, res) {
     };
 
 
+// Handle building the view for creating a employee.
+// No body, no in path parameter, no query.
+// Does not need to be async
+exports.employee_create_Page = function(req, res) {
+    console.log("create view")
+    try{
+    res.render('employeecreate', { title: 'employee Create'});
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+
+// Handle building the view for updating a employee.
+// query provides the id
+exports.employee_update_Page = async function(req, res) {
+console.log("update view for item "+req.query.id)
+try{
+let result = await Employee.findById(req.query.id)
+res.render('employeeupdate', { title: 'employee Update', toShow: result });
+}
+catch(err){
+res.status(500)
+res.send(`{'error': '${err}'}`);
+}
+};
+
+// Handle a delete one view with id from query
+exports.employee_delete_Page = async function(req, res) {
+    console.log("Delete view for id " + req.query.id)
+    try{
+    result = await Employee.findById(req.query.id)
+    res.render('employeedelete', { title: 'employee Delete', toShow:
+    result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };

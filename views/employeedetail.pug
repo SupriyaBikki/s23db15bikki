@@ -1,20 +1,25 @@
 extends layout
+
 block content
-h1= title
-- let employeeid = toShow._id
-- let employee_type = toShow.employee_type
-- let employeecost = toShow.cost
-- let employeesize = toShow.size
-div
-div.row
-div(class='employeeAttr mr-3') employee ID is:
-div #{employeeid}
-div.row
-div(class='employeeAttr mr-3') employee Type is:
-div #{employee_type}
-div.row
-div(class='employeeAttr mr-3') employee Size is:
-div #{employeesize}
-div.row
-div(class='employeeAttr mr-3') employee Cost is:
-div #{employeecost}
+    h1= title
+
+    if (toShow == null)
+        h2 No instance 
+    else
+        - let employeeid = toShow._id
+        - let employee_type = toShow.employee_type
+        - let employee_Department = toShow.department
+        - let employee_Salary = toShow.salary
+
+        div.row
+            div(class='employeeAttr mr-3') employee ID is:
+            div #{employeeid}
+        div.row
+            div(class='employeeAttr mr-3') employee Type is:
+            div #{employee_type}
+        div.row
+            div(class='employeeAttr mr-3') employee Size is:
+            div #{employee_Department}
+        div.row
+            div(class='employeeAttr mr-3') employee Cost is:
+            div #{employee_Salary}
