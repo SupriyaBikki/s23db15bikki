@@ -3,8 +3,9 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var logger = require('morgan');
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var boardRouter = require('./routes/board');
@@ -12,12 +13,9 @@ var chooseRouter = require('./routes/choose');
 var employeeRouter = require('./routes/employee');
 var resourceRouter = require('./routes/resource');
 var employee = require("./models/employee");
-
-
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-// const employee = require('./models/employee');
 
 const connectionString = process.env.MONGO_CON;
 
@@ -40,29 +38,33 @@ app.use('/board', boardRouter);
 app.use('/choose', chooseRouter);
 app.use('/employee' , employeeRouter);
 app.use('/resource' , resourceRouter);
-// app.use('/aeroplane', aeroplaneRouter);
 
-// mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
-
-// const db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-// db.once('open', function () {
-//   console.log('Connection to DB succeeded');
-// });
-
-// mongoose.connect('mongodb+srv://bikkisupriya:bikkisupriya@cluster0.jfghyqn.mongodb.net/?retryWrites=true&w=majority').
-// then(() => {
-//     console.log("DB connected");
-// })
-// .catch((err) => console.log(err.message))
-
-// mongoose.connect(connectionString);
-// var db = mongoose.connection;+
-// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-// db.once('open', function () {
-//   console.log('Connection to DB succeeded')
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+  Account.findOne({ username: username })
+  .then(function (user){
+  if (err) { return done(err); }
+  if (!user) {
+  return done(null, false, { message: 'Incorrect username.' });
+  }
+  if (!user.validPassword(password)) {
+  return done(null, false, { message: 'Incorrect password.' });
+  }
+  return done(null, user);
+  })
+  .catch(function(err){
+  return done(err)
+  })
+  })
+  )
+  app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+  }));
+  app.use(passport.initialize());
+  app.use(passport.session());
   
-// });
 
 mongoose.connect('mongodb+srv://bikkisupriya:bikkisupriya@cluster0.jfghyqn.mongodb.net/?retryWrites=true&w=majority').
 then(() => {
