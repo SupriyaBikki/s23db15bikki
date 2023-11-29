@@ -26,7 +26,7 @@ block content
                 div.form-group.row
                     label.col-sm-2.col-form-label(for='department') Employee department
                     div.col-sm-10
-                        input#department.form-control(type='text', name='department', value=department)
+                        input#department.form-control(type='text', min = 10, max = 20, name='department', value=department)
 
                 div.form-group.row
                     label.col-sm-2.col-form-label(for='salary') Employee salary
