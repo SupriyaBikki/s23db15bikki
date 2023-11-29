@@ -1,20 +1,13 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  p  i am supriya
-  button( class="btn btn-primary" , onclick="goFast()") Press Me
-  div#faster Increase the speed
+  if (!user)
+    a(href="/login") Login
+    br
+    a(href="/register") Register
 
-
-  block scripts
-    script.
-      var mph = 20;
-      var change = 1;
-
-      function goFast() {
-        mph += change;
-        change += 1;
-        document.getElementById("faster").textContent = `MPH is ${mph} with the change of ${change}`;
-      }
+  if (user)
+    p You are currently logged in as #{user.username}
+    a(href="/employee") Take me to employee
+    br
+    a(href="/logout") Logout
