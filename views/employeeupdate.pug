@@ -1,50 +1,59 @@
 extends layout
 
 block content
-    h1= title
+    div.container
+        h1= title
 
-    if (toShow == null)
-        h2 No instance to update
-    else
-        - let employeeid = toShow._id
-        - let employee_type = toShow.employee_type
-        - let department = toShow.department
-        - let salary = toShow.salary
+        if (toShow == null)
+            h2 No instance to update
+        else
+            - let employeeid = toShow._id
+            - let employee_type = toShow.employee_type
+            - let department = toShow.department
+            - let salary = toShow.salary
 
-        div.row(class='mb-2')
-            div.mr-1 ID is
-            div #{employeeid}
-            - let actionid = "/resource/employee/" + employeeid
+            div.row(class='mb-2')
+                div.col-12.mb-2 ID is
+                div.col-12 #{employeeid}
+                - let actionid = "/resource/employee/" + employeeid
 
-        form(id='employeeForm', action=actionid, method="PUT")
-            div.form-group
-                label(for='employee_type') Employee Name
-                input#employee_type(type='text', name='employee_type', value=employee_type)
-            div.form-group
-                label(for='department') Employee department
-                input#department(type='text', name='department', value=department)
-            div.form-group
-                label(for='salary') Employee salary
-                input#salary(type='number', name='salary', value=salary)
-            input(type="submit")
+            form(id='employeeForm', action=actionid, method="PUT")
+                div.form-group.row
+                    label.col-sm-2.col-form-label(for='employee_type') Employee Name
+                    div.col-sm-10
+                        input#employee_type.form-control(type='text', name='employee_type', value=employee_type)
 
-        script.
-            document.forms['employeeForm'].addEventListener('submit', (event) => {
-                event.preventDefault();
-                fetch(event.target.action, {
-                    method: 'PUT',
-                    body: new URLSearchParams(new FormData(event.target))
-                }).then((resp) => {
-                    if (resp.ok) {
-                        alert("Save succeeded");
-                    } else {
-                        alert("Save failed");
-                    }
-                    return resp.json();
-                }).then((body) => {
-                    // TODO handle body
-                }).catch((error) => {
-                    // TODO handle error
-                    alert("Save failed " + error);
+                div.form-group.row
+                    label.col-sm-2.col-form-label(for='department') Employee department
+                    div.col-sm-10
+                        input#department.form-control(type='text', name='department', value=department)
+
+                div.form-group.row
+                    label.col-sm-2.col-form-label(for='salary') Employee salary
+                    div.col-sm-10
+                        input#salary.form-control(type='number', min = 1000, max = 10000, name='salary', value=salary)
+
+                div.form-group.row
+                    div.col-sm-10.offset-sm-2
+                        input.btn.btn-primary(type="submit" value="Update")
+
+            script.
+                document.forms['employeeForm'].addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    fetch(event.target.action, {
+                        method: 'PUT',
+                        body: new URLSearchParams(new FormData(event.target))
+                    }).then((resp) => {
+                        if (resp.ok) {
+                            alert("Save succeeded");
+                        } else {
+                            alert("Save failed");
+                        }
+                        return resp.json();
+                    }).then((body) => {
+                        // TODO handle body
+                    }).catch((error) => {
+                        // TODO handle error
+                        alert("Save failed " + error);
+                    });
                 });
-            });

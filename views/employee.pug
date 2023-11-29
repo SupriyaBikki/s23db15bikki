@@ -5,11 +5,13 @@ block content
   - let items = results;
   div(class="container-fluid")
     div(class="row m-1")
+      a.btn.btn-success(href="/employee/create") Insert Employee
       each item in items
         - let destination = `/employee/update?id=${item._id}`
         div(class="row-sm-2", class="m-1")
           | Employee : #{item.employee_type}(#{item.department}) #{item.salary}
           button.btn.btn-primary.ml-1(onclick=`dispatch('${destination}')`) Update
+          button.btn.btn-success.ml-1(onclick=`dispatch('${destination}')`) View Details
 
   script.
     function dispatch(path) {
